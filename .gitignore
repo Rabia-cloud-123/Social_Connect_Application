@@ -79,3 +79,4 @@ yarn-error.log
 Backend/src/config/serviceAccountKey.json
 .env
 android/app/google-services.json
+src/services/firebase.js
