@@ -7,6 +7,8 @@ import {
   Image,
 } from 'react-native';
 
+import LikeAnimation from './LikeAnimation';
+
 const PostCard = ({
   post,
   currentUserId,
@@ -55,16 +57,25 @@ const PostCard = ({
 
       <View style={styles.actionsContainer}>
         <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => onLike?.(post)}>
-          <Text
-            style={[
-              styles.actionText,
-              isLiked && styles.likedText,
-            ]}>
-            {isLiked ? 'Unlike' : 'Like'}
-          </Text>
-        </TouchableOpacity>
+  style={styles.actionButton}
+  onPress={() => onLike?.(post)}>
+  <View
+    style={{
+      flexDirection: 'row',
+      alignItems: 'center',
+    }}>
+    <LikeAnimation liked={isLiked} />
+
+    <Text
+      style={[
+        styles.actionText,
+        isLiked && styles.likedText,
+        {marginLeft: 6},
+      ]}>
+      {isLiked ? 'Unlike' : 'Like'}
+    </Text>
+  </View>
+</TouchableOpacity>
 
         <TouchableOpacity
           style={styles.actionButton}

@@ -1,5 +1,80 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Social Connect
 
+Social Connect is a React Native social media application that allows users to create accounts, share posts, interact with other users, and communicate through messaging.
+
+---
+
+## Features
+
+### Week 1 Features
+- User Registration
+- User Login
+- Forgot Password
+- Form Validation using Formik and Yup
+- React Navigation
+- User Profile Setup
+
+### Week 2 Features
+- Create Posts
+- View Posts Feed
+- Like Posts
+- Comment on Posts
+- View User Profiles
+- Redux State Management
+
+### Week 3 Features
+- Real-Time Updates with Firebase Firestore
+- Notifications System
+- Responsive UI
+- Like Animation using Reanimated
+
+### Week 4 Features
+- Follow / Unfollow Users
+- Basic Messaging System
+- Edit Posts
+- Delete Posts
+- Improved Navigation
+
+### Week 5 Features
+- Image Upload in Posts
+- Search Users
+- Search Posts
+- Edit User Profile
+- Performance Improvements
+
+### Week 6 Features
+- Testing
+- Bug Fixes
+- Deployment Preparation
+
+---
+
+## Technologies Used
+
+- React Native
+- Firebase Authentication
+- Firebase Firestore
+- Redux Toolkit
+- React Navigation
+- Formik
+- Yup
+- React Native Reanimated
+- React Native Image Picker
+
+---
+
+## Folder Structure
+
+```text
+src
+├── assets
+├── components
+├── navigation
+├── screens
+├── services
+├── store
+└── utils
 # Getting Started
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
