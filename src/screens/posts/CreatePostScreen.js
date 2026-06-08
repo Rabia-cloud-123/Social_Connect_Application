@@ -10,13 +10,11 @@ import {
   ScrollView,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {createPost} from '../../services/postService';
-import {addPost} from '../../store/slices/postSlice';
 
 const CreatePostScreen = ({navigation}) => {
-  const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
 
   const [content, setContent] = useState('');
@@ -30,21 +28,11 @@ const CreatePostScreen = ({navigation}) => {
         quality: 0.8,
       });
 
-      if (result.didCancel) {
-        return;
-      }
-
-      if (
-        result.assets &&
-        result.assets.length > 0
-      ) {
+      if (result.assets?.length > 0) {
         setImage(result.assets[0].uri);
       }
     } catch (error) {
-      Alert.alert(
-        'Error',
-        'Failed to select image',
-      );
+      Alert.alert('Error', 'Failed to select image');
     }
   };
 
@@ -52,7 +40,7 @@ const CreatePostScreen = ({navigation}) => {
     if (!content.trim()) {
       Alert.alert(
         'Validation',
-        'Please enter post content',
+        'Please enter something to post',
       );
       return;
     }
@@ -60,26 +48,21 @@ const CreatePostScreen = ({navigation}) => {
     try {
       setLoading(true);
 
-      const newPost = await createPost({
+      await createPost({
         userId: user?.id,
         userName: user?.name,
         content,
         image,
+        likes: [],
+        comments: [],
       });
-
-      dispatch(addPost(newPost));
-
-      setContent('');
-      setImage('');
 
       Alert.alert(
         'Success',
         'Post created successfully',
       );
 
-      if (navigation) {
-        navigation.goBack();
-      }
+      navigation.goBack();
     } catch (error) {
       Alert.alert(
         'Error',
@@ -94,96 +77,100 @@ const CreatePostScreen = ({navigation}) => {
     <ScrollView
       contentContainerStyle={styles.container}>
       <Text style={styles.title}>
-        Create Post
+        Create New Post
       </Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="What's on your mind?"
-        multiline
-        value={content}
-        onChangeText={setContent}
-      />
-
-      {image ? (
-        <Image
-          source={{uri: image}}
-          style={styles.previewImage}
+      <View style={styles.card}>
+        <TextInput
+          style={styles.input}
+          placeholder="What's on your mind?"
+          multiline
+          value={content}
+          onChangeText={setContent}
         />
-      ) : null}
 
-      <TouchableOpacity
-        style={styles.imageButton}
-        onPress={handleSelectImage}>
-        <Text style={styles.imageButtonText}>
-          Select Image
-        </Text>
-      </TouchableOpacity>
+        {image ? (
+          <Image
+            source={{uri: image}}
+            style={styles.previewImage}
+          />
+        ) : null}
 
-      <TouchableOpacity
-        style={[
-          styles.postButton,
-          loading && styles.disabledButton,
-        ]}
-        disabled={loading}
-        onPress={handleCreatePost}>
-        <Text style={styles.postButtonText}>
-          {loading ? 'Posting...' : 'Post'}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.imageButton}
+          onPress={handleSelectImage}>
+          <Text style={styles.imageButtonText}>
+            📷 Add Image
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.postButton}
+          disabled={loading}
+          onPress={handleCreatePost}>
+          <Text style={styles.postButtonText}>
+            {loading
+              ? 'Posting...'
+              : 'Create Post'}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: '#FFFFFF',
     flexGrow: 1,
+    backgroundColor: '#F4F6FF',
+    padding: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#1F2937',
     marginBottom: 20,
   },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 18,
+    elevation: 4,
+  },
   input: {
-    minHeight: 120,
-    borderWidth: 1,
-    borderColor: '#DADADA',
-    borderRadius: 10,
-    padding: 15,
+    minHeight: 140,
     textAlignVertical: 'top',
-    marginBottom: 15,
+    fontSize: 16,
+    color: '#1F2937',
   },
   previewImage: {
     width: '100%',
-    height: 250,
-    borderRadius: 10,
-    marginBottom: 15,
+    height: 220,
+    borderRadius: 16,
+    marginTop: 15,
   },
   imageButton: {
-    backgroundColor: '#F1F3F5',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 15,
+    marginTop: 16,
+    backgroundColor: '#EEF2FF',
+    padding: 14,
+    borderRadius: 12,
+    alignItems: 'center',
   },
   imageButtonText: {
-    textAlign: 'center',
-    fontWeight: '600',
+    color: '#6C63FF',
+    fontWeight: '700',
   },
   postButton: {
-    backgroundColor: '#1877F2',
-    padding: 15,
-    borderRadius: 10,
-  },
-  disabledButton: {
-    opacity: 0.7,
+    marginTop: 18,
+    backgroundColor: '#FF6584',
+    padding: 16,
+    borderRadius: 14,
+    alignItems: 'center',
   },
   postButtonText: {
     color: '#FFFFFF',
-    textAlign: 'center',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });
 

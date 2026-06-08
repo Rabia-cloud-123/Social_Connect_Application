@@ -9,9 +9,9 @@ const CreatePostButton = ({onPress}) => {
   return (
     <TouchableOpacity
       style={styles.fab}
-      activeOpacity={0.8}
+      activeOpacity={0.85}
       onPress={onPress}>
-      <Text style={styles.plusText}>+</Text>
+      <Text style={styles.plusText}>＋</Text>
     </TouchableOpacity>
   );
 };
@@ -19,20 +19,27 @@ const CreatePostButton = ({onPress}) => {
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
-    right: 20,
-    bottom: 25,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#1877F2',
+    right: 22,
+    bottom: 35,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#FF6584',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 5,
+    elevation: 8,
+    shadowColor: '#FF6584',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
   },
   plusText: {
     color: '#FFFFFF',
-    fontSize: 30,
-    fontWeight: '700',
+    fontSize: 34,
+    fontWeight: '800',
     marginTop: -2,
   },
 });

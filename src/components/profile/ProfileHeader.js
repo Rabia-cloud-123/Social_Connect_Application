@@ -43,7 +43,7 @@ const ProfileHeader = ({
       </Text>
 
       <View style={styles.statsContainer}>
-        <View style={styles.statItem}>
+        <View style={styles.statCard}>
           <Text style={styles.statNumber}>
             {followersCount}
           </Text>
@@ -52,7 +52,7 @@ const ProfileHeader = ({
           </Text>
         </View>
 
-        <View style={styles.statItem}>
+        <View style={styles.statCard}>
           <Text style={styles.statNumber}>
             {followingCount}
           </Text>
@@ -68,60 +68,67 @@ const ProfileHeader = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    padding: 20,
-    borderRadius: 15,
     margin: 16,
-    elevation: 2,
+    padding: 22,
+    borderRadius: 24,
+    alignItems: 'center',
+    elevation: 4,
   },
   profileImage: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    marginBottom: 12,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 4,
+    borderColor: '#6C63FF',
   },
   placeholderImage: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: '#1877F2',
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#6C63FF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
   },
   placeholderText: {
     color: '#FFFFFF',
-    fontSize: 40,
-    fontWeight: '700',
+    fontSize: 42,
+    fontWeight: '800',
   },
   name: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#222222',
+    marginTop: 14,
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#1F2937',
   },
   bio: {
     marginTop: 8,
     textAlign: 'center',
-    color: '#666666',
+    color: '#6B7280',
     fontSize: 14,
+    lineHeight: 20,
   },
   statsContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 24,
   },
-  statItem: {
+  statCard: {
+    backgroundColor: '#F4F6FF',
+    width: 120,
+    paddingVertical: 16,
+    borderRadius: 16,
     alignItems: 'center',
-    marginHorizontal: 25,
+    marginHorizontal: 8,
   },
   statNumber: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#222222',
+    fontSize: 22,
+    fontWeight: '800',
+    color: '#6C63FF',
   },
   statLabel: {
+    marginTop: 4,
     fontSize: 13,
-    color: '#777777',
-    marginTop: 3,
+    color: '#6B7280',
+    fontWeight: '600',
   },
 });
 

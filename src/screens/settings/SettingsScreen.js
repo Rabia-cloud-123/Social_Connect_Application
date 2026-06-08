@@ -1,19 +1,18 @@
 import React from 'react';
 import {
+  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   Alert,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import {logoutUser} from '../../store/slices/authSlice';
+import {logout} from '../../store/slices/authSlice';
 
 const SettingsScreen = () => {
   const dispatch = useDispatch();
-  const {user} = useSelector(state => state.auth);
 
   const handleLogout = () => {
     Alert.alert(
@@ -27,7 +26,9 @@ const SettingsScreen = () => {
         {
           text: 'Logout',
           style: 'destructive',
-          onPress: () => dispatch(logoutUser()),
+          onPress: () => {
+            dispatch(logout());
+          },
         },
       ],
     );
@@ -35,26 +36,49 @@ const SettingsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Settings</Text>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>Logged in as</Text>
-        <Text style={styles.value}>
-          {user?.email || 'user@example.com'}
+      <View style={styles.headerBox}>
+        <Text style={styles.header}>Settings</Text>
+        <Text style={styles.subtitle}>
+          Manage your account preferences
         </Text>
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.option}>Account</Text>
-        <Text style={styles.option}>Privacy</Text>
-        <Text style={styles.option}>Notifications</Text>
-        <Text style={styles.option}>Help & Support</Text>
+        <TouchableOpacity style={styles.item}>
+          <Text style={styles.icon}>👤</Text>
+          <Text style={styles.itemText}>
+            Account Settings
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item}>
+          <Text style={styles.icon}>🔔</Text>
+          <Text style={styles.itemText}>
+            Notifications
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item}>
+          <Text style={styles.icon}>🎨</Text>
+          <Text style={styles.itemText}>
+            Appearance
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item}>
+          <Text style={styles.icon}>ℹ️</Text>
+          <Text style={styles.itemText}>
+            About App
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity
         style={styles.logoutButton}
         onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
+        <Text style={styles.logoutText}>
+          Logout
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -63,50 +87,60 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F7FA',
-    padding: 20,
+    backgroundColor: '#F4F6FF',
+  },
+  headerBox: {
+    backgroundColor: '#6C63FF',
+    paddingHorizontal: 20,
+    paddingTop: 22,
+    paddingBottom: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   header: {
     fontSize: 28,
-    fontWeight: '700',
-    color: '#222',
-    marginBottom: 20,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#EDEBFF',
+    marginTop: 5,
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    margin: 16,
+    borderRadius: 20,
+    paddingVertical: 10,
+    elevation: 3,
+  },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 18,
-    marginBottom: 16,
-    elevation: 2,
-  },
-  label: {
-    fontSize: 14,
-    color: '#777',
-    marginBottom: 6,
-  },
-  value: {
-    fontSize: 16,
-    color: '#222',
-    fontWeight: '600',
-  },
-  option: {
-    fontSize: 16,
-    color: '#333',
-    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
+    borderBottomColor: '#F1F1F1',
+  },
+  icon: {
+    fontSize: 22,
+    marginRight: 15,
+  },
+  itemText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1F2937',
   },
   logoutButton: {
-    backgroundColor: '#E53935',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
+    backgroundColor: '#EF4444',
+    marginHorizontal: 16,
+    padding: 16,
+    borderRadius: 14,
+    alignItems: 'center',
   },
-  logoutButtonText: {
+  logoutText: {
     color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight: '600',
     fontSize: 16,
+    fontWeight: '700',
   },
 });
 

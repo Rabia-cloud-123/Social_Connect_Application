@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   Alert,
   ScrollView,
+  View,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -34,6 +34,8 @@ const LoginScreen = ({navigation}) => {
         email: values.email,
         bio: '',
         profilePicture: '',
+        followers: [],
+        following: [],
       };
 
       dispatch(loginSuccess(mockUser));
@@ -44,74 +46,81 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.logoCircle}>
+        <Text style={styles.logoText}>SC</Text>
+      </View>
+
       <Text style={styles.title}>Social Connect</Text>
-      <Text style={styles.subtitle}>Welcome Back</Text>
+      <Text style={styles.subtitle}>Welcome back to your community</Text>
 
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-        }}
-        validationSchema={loginValidationSchema}
-        onSubmit={handleLogin}>
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-            />
+      <View style={styles.card}>
+        <Formik
+          initialValues={{
+            email: '',
+            password: '',
+          }}
+          validationSchema={loginValidationSchema}
+          onSubmit={handleLogin}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#9CA3AF"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={values.email}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+              />
 
-            {touched.email && errors.email && (
-              <Text style={styles.errorText}>{errors.email}</Text>
-            )}
+              {touched.email && errors.email ? (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              ) : null}
 
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-              value={values.password}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-            />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                placeholderTextColor="#9CA3AF"
+                secureTextEntry
+                value={values.password}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+              />
 
-            {touched.password && errors.password && (
-              <Text style={styles.errorText}>{errors.password}</Text>
-            )}
+              {touched.password && errors.password ? (
+                <Text style={styles.errorText}>{errors.password}</Text>
+              ) : null}
 
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={handleSubmit}>
-              <Text style={styles.loginButtonText}>Login</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.loginButton}
+                activeOpacity={0.85}
+                onPress={handleSubmit}>
+                <Text style={styles.loginButtonText}>Login</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ForgotPassword')}>
-              <Text style={styles.linkText}>
-                Forgot Password?
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('ForgotPassword')}>
+                <Text style={styles.linkText}>Forgot Password?</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Signup')}>
-              <Text style={styles.linkText}>
-                Don't have an account? Sign Up
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
+              <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                <Text style={styles.bottomText}>
+                  Don't have an account?{' '}
+                  <Text style={styles.boldLink}>Sign Up</Text>
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </Formik>
+      </View>
     </ScrollView>
   );
 };
@@ -119,52 +128,87 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    backgroundColor: '#F4F6FF',
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#FFFFFF',
+  },
+  logoCircle: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: '#6C63FF',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 18,
+    elevation: 5,
+  },
+  logoText: {
+    color: '#FFFFFF',
+    fontSize: 30,
+    fontWeight: '900',
   },
   title: {
-    fontSize: 32,
-    fontWeight: '700',
+    fontSize: 34,
+    fontWeight: '900',
     textAlign: 'center',
-    marginBottom: 10,
+    color: '#1F2937',
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 15,
     textAlign: 'center',
-    marginBottom: 30,
-    color: '#666',
+    color: '#6B7280',
+    marginTop: 6,
+    marginBottom: 25,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    padding: 20,
+    elevation: 4,
   },
   input: {
+    backgroundColor: '#F9FAFB',
     borderWidth: 1,
-    borderColor: '#DADADA',
-    borderRadius: 10,
+    borderColor: '#E5E7EB',
+    borderRadius: 14,
     paddingHorizontal: 15,
-    paddingVertical: 12,
+    paddingVertical: 13,
     marginBottom: 10,
+    color: '#1F2937',
   },
   errorText: {
-    color: 'red',
+    color: '#EF4444',
     marginBottom: 10,
     fontSize: 12,
   },
   loginButton: {
-    backgroundColor: '#1877F2',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
+    backgroundColor: '#FF6584',
+    padding: 16,
+    borderRadius: 14,
+    marginTop: 8,
   },
   loginButtonText: {
     color: '#FFFFFF',
     textAlign: 'center',
-    fontWeight: '600',
+    fontWeight: '800',
     fontSize: 16,
   },
   linkText: {
     textAlign: 'center',
-    marginTop: 15,
-    color: '#1877F2',
+    marginTop: 16,
+    color: '#6C63FF',
+    fontWeight: '700',
+  },
+  bottomText: {
+    textAlign: 'center',
+    marginTop: 16,
+    color: '#6B7280',
     fontWeight: '500',
+  },
+  boldLink: {
+    color: '#6C63FF',
+    fontWeight: '800',
   },
 });
 
