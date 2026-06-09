@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 
-import {logout} from '../../store/slices/authSlice';
+import {logoutUser} from '../../store/slices/authSlice';
 
 const SettingsScreen = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const SettingsScreen = () => {
           text: 'Logout',
           style: 'destructive',
           onPress: () => {
-            dispatch(logout());
+            dispatch(logoutUser());
           },
         },
       ],

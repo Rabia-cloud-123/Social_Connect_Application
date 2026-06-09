@@ -8,11 +8,19 @@ export const createPost = async ({
   content,
   image = '',
 }) => {
+  if (!userId) {
+    throw new Error('User ID is missing');
+  }
+
+  if (!content || !content.trim()) {
+    throw new Error('Post content is required');
+  }
+
   const postData = {
-    userId,
-    userName,
-    content,
-    image,
+    userId: String(userId),
+    userName: userName || 'Social Connect User',
+    content: content.trim(),
+    image: image || '',
     likes: [],
     comments: [],
     createdAt: firestore.FieldValue.serverTimestamp(),
@@ -40,10 +48,7 @@ export const getPosts = async () => {
   }));
 };
 
-export const updatePost = async (
-  postId,
-  updatedContent,
-) => {
+export const updatePost = async (postId, updatedContent) => {
   await firestore()
     .collection(POSTS_COLLECTION)
     .doc(postId)
@@ -60,25 +65,18 @@ export const deletePost = async postId => {
     .delete();
 };
 
-export const togglePostLike = async (
-  postId,
-  userId,
-  isLiked,
-) => {
+export const togglePostLike = async (postId, userId, isLiked) => {
   await firestore()
     .collection(POSTS_COLLECTION)
     .doc(postId)
     .update({
       likes: isLiked
-        ? firestore.FieldValue.arrayRemove(userId)
-        : firestore.FieldValue.arrayUnion(userId),
+        ? firestore.FieldValue.arrayRemove(String(userId))
+        : firestore.FieldValue.arrayUnion(String(userId)),
     });
 };
 
-export const addCommentToPost = async (
-  postId,
-  comment,
-) => {
+export const addCommentToPost = async (postId, comment) => {
   await firestore()
     .collection(POSTS_COLLECTION)
     .doc(postId)
@@ -90,7 +88,7 @@ export const addCommentToPost = async (
 export const getUserPosts = async userId => {
   const snapshot = await firestore()
     .collection(POSTS_COLLECTION)
-    .where('userId', '==', userId)
+    .where('userId', '==', String(userId))
     .get();
 
   return snapshot.docs.map(doc => ({
